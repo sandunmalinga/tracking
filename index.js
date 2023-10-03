@@ -40,8 +40,12 @@ const axios = require('axios');
 
         console.log(firstRowValues);
 
+        const secondColumnValue = firstRowValues[1];
+
+        console.log('Second Column Value:', secondColumnValue);
+
         // Define the desired URL with dynamic values
-        const desiredUrl = `https://ebill.sanduntyre.com/pronto-current-status.php?tracking_code=${trackingNumber}&current_shipping_status=${firstRowValues.join('%20')}`;
+        const desiredUrl = `https://ebill.sanduntyre.com/pronto-current-status.php?tracking_code=${trackingNumber}&current_shipping_status=${firstRowValues.join('%20')}&now_tracking_update=${secondColumnValue}`;
 
         // Navigate to the desired URL
         await page.goto(desiredUrl);
