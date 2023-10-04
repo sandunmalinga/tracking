@@ -33,7 +33,11 @@ async function fetchDataAndTrack() {
 
         console.log(firstRowValues);
 
-        const desiredUrl = `https://ebill.sanduntyre.com/pronto-current-status.php?tracking_code=${trackingNumber}&current_shipping_status=${firstRowValues.join('%20')}`;
+        const secondColumnValue = firstRowValues[1];
+
+        console.log('Second Column Value:', secondColumnValue);
+
+       const desiredUrl = `https://ebill.sanduntyre.com/pronto-current-status.php?tracking_code=${trackingNumber}&current_shipping_status=${firstRowValues.join('%20')}&now_tracking_update=${secondColumnValue}`;
 
         await page.goto(desiredUrl);
 
