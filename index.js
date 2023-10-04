@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 const axios = require('axios');
-const cron = require('node-cron');
+
 
 async function fetchDataAndTrack() {
   try {
@@ -56,8 +56,5 @@ async function fetchDataAndTrack() {
 // Initially run the function
 fetchDataAndTrack();
 
-// Schedule the function to run every 5 minutes
-cron.schedule('*/5 * * * *', () => {
-  console.log('Running the code every 5 minutes...');
-  fetchDataAndTrack();
+
 });
