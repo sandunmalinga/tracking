@@ -1,8 +1,7 @@
 const puppeteer = require('puppeteer');
 const axios = require('axios');
 
-// Define the function that performs the tracking
-async function trackShipments() {
+(async () => {
   // Fetch JSON data from the URL
   try {
     const response = await axios.get('https://ebill.sanduntyre.com/pronto-tracking-number.php');
@@ -48,6 +47,7 @@ async function trackShipments() {
         // Define the desired URL with dynamic values
         const desiredUrl = `https://ebill.sanduntyre.com/pronto-current-status.php?tracking_code=${trackingNumber}&current_shipping_status=${firstRowValues.join('%20')}&now_tracking_update=${secondColumnValue}`;
 
+        
         // Navigate to the desired URL
         await page.goto(desiredUrl);
 
@@ -65,10 +65,4 @@ async function trackShipments() {
   } catch (error) {
     console.error("Error fetching JSON data:", error);
   }
-}
-
-// Set the function to run every 5 minutes
-setInterval(trackShipments, 300000); // 300,000 ms = 5 minutes
-
-// Run the function immediately on startup
-trackShipments();
+})();
