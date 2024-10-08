@@ -1,7 +1,8 @@
 const puppeteer = require('puppeteer');
 const axios = require('axios');
 
-(async () => {
+// Define the function that performs the tracking
+async function trackShipments() {
   // Fetch JSON data from the URL
   try {
     const response = await axios.get('https://ebill.sanduntyre.com/pronto-tracking-number.php');
@@ -64,4 +65,10 @@ const axios = require('axios');
   } catch (error) {
     console.error("Error fetching JSON data:", error);
   }
-})();
+}
+
+// Set the function to run every 5 minutes
+setInterval(trackShipments, 300000); // 300,000 ms = 5 minutes
+
+// Run the function immediately on startup
+trackShipments();
