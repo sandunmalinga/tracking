@@ -17,8 +17,8 @@ async function trackShipments() {
       for (const trackingNumber of trackingNumbers) {
         const page = await browser.newPage();
 
-        // Navigate to the courier partner's website
-        await page.goto('https://www.prontolanka.lk/');
+        // Navigate to the courier partner's website with an increased timeout or no timeout
+        await page.goto('https://www.prontolanka.lk/', { timeout: 0 }); // Disable timeout
 
         // Enter the tracking number
         await page.type('#TextBox3', trackingNumber);
@@ -29,7 +29,7 @@ async function trackShipments() {
         });
 
         // Wait for the table to load
-        await page.waitForSelector('.contactForm.track-form.mb-0 table');
+        await page.waitForSelector('.contactForm.track-form.mb-0 table', { timeout: 60000 }); // Increase selector wait timeout
 
         // Add a delay of 5 seconds
         await page.waitForTimeout(5000);
@@ -49,7 +49,7 @@ async function trackShipments() {
         const desiredUrl = `https://ebill.sanduntyre.com/pronto-current-status.php?tracking_code=${trackingNumber}&current_shipping_status=${firstRowValues.join('%20')}&now_tracking_update=${secondColumnValue}`;
 
         // Navigate to the desired URL
-        await page.goto(desiredUrl);
+        await page.goto(desiredUrl, { timeout: 0 }); // Disable timeout
 
         // Close the page for the current tracking number
         await page.close();
