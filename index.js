@@ -1,7 +1,8 @@
 const puppeteer = require('puppeteer');
 const axios = require('axios');
 
-(async () => {
+// Function to perform the tracking
+async function trackShipments() {
   // Fetch JSON data from the URL
   try {
     const response = await axios.get('https://ebill.sanduntyre.com/pronto-tracking-number.php');
@@ -27,10 +28,10 @@ const axios = require('axios');
           document.querySelector('#LinkButton1').click();
         });
 
-        // Wait for the table to load (you can increase the wait time if needed)
+        // Wait for the table to load
         await page.waitForSelector('.contactForm.track-form.mb-0 table');
 
-        // Add a delay of 5 seconds (you can adjust the delay time as needed)
+        // Add a delay of 5 seconds
         await page.waitForTimeout(5000);
 
         // Extract the content of the first row in the table
@@ -47,11 +48,8 @@ const axios = require('axios');
         // Define the desired URL with dynamic values
         const desiredUrl = `https://ebill.sanduntyre.com/pronto-current-status.php?tracking_code=${trackingNumber}&current_shipping_status=${firstRowValues.join('%20')}&now_tracking_update=${secondColumnValue}`;
 
-        
         // Navigate to the desired URL
         await page.goto(desiredUrl);
-
-        // Now you are on the desired URL page
 
         // Close the page for the current tracking number
         await page.close();
@@ -65,4 +63,10 @@ const axios = require('axios');
   } catch (error) {
     console.error("Error fetching JSON data:", error);
   }
-})();
+
+  // Recursively call the function again to repeat indefinitely
+  trackShipments();
+}
+
+// Start the infinite loop
+trackShipments();
